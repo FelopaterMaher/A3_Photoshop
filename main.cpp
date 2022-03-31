@@ -1,13 +1,31 @@
-//Assignment 3 v1.1 by Felopater maher
-#include<bits/stdc++.h>
+// Program: Ass3.
+// Author:  Felopater maher
+// Version: 1.1
+
+#include<iostream>
+#include<fstream>
+#include<cstring>
+#include<cmath>
+#include "bmplib.cpp"
 
 using namespace std;
 
+unsigned char image[SIZE][SIZE];
+
+void load();
+void filter1();
+void filter2();
+void filter3();
+void filter4();
+void filter5();
+void filter6();
+void save();
+
 int main() {
-    cout << " Ahlan ya user ya habibi \n"
-            "Please enter file name of the image to process:\n";
-    //cin>>photo;
-    Start:
+
+
+    cout << " Ahlan ya user ya habibi \n"<<endl;
+    load();
     cout << "Please select a filter to apply or 0 to exit:\n"
             "1- Black & White Filter\n"
             "2- Invert Filter\n"
@@ -22,14 +40,18 @@ int main() {
             "b- Shuffle Image\n"
             "c- Blur Image\n"
             "s- Save the image to a file\n"
-            "0- Exit" << endl;
+            "0- Exit" ;
     char iChoice;
+    cin.ignore();
     cin >> iChoice;
     if (iChoice == '1') {
+            filter1();
     } else if (iChoice == '2') {
+        filter2();
     } else if (iChoice == '3') {
     } else if (iChoice == '4') {
-        cout << "Flip (h)orizontally or (v)ertically ?" << endl;
+        filter4();
+
     } else if (iChoice == '5') {
         cout << "Do you want to (d)arken or (l)ighten?" << endl;
     } else if (iChoice == '6') {
@@ -47,9 +69,84 @@ int main() {
         cout << "Please enter target file name:" << endl;
     } else if (iChoice == 0) {
         return 0;
-    } else {
-        cout << "Please enter a correct choice" << endl;
-        goto Start;
     }
+
+    save();
     return 0;
 }
+
+void load()
+{
+    char imageFileName [100];
+    cout<<"Enter the source image file name: ";
+    cin>> imageFileName ;
+    //Add to it .bmb extension and load image.
+    strcat(imageFileName,".bmp");
+    readGSBMP(imageFileName,image);
+}
+
+void save(){
+    char imageFileName [100];
+    cout<<"Enter the file image file name to save: ";
+    cin>> imageFileName ;
+    //Add to it .bmb extension and load image.
+    strcat (imageFileName,".bmp");
+    writeGSBMP(imageFileName,image);
+
+}
+
+void filter1()
+{
+    for (int i = 0; i < SIZE; i++)
+    {
+    for (int j = 0; j< SIZE; j++)
+    {
+
+        if (image[i][j] > 127)
+            image[i][j] = 255;
+        else
+            image[i][j] = 0;
+    }
+    }
+}
+void filter4()
+{
+    start:
+    cout << "Flip (h)orizontally or (v)ertically ?" << endl;
+    char ICHOICE;
+    cin>> ICHOICE;
+    if(ICHOICE=='h')
+    {
+    for (int i = 0; i < (SIZE/ 2); i++)
+        {
+          for (int j = 0; j < (SIZE); j++)
+          {
+        int temp = image[i][j];
+        image[i][j] = image[SIZE- 1 - i][j];
+        image[SIZE - 1 -i][j] = temp;
+          }
+        }
+    }
+    else if(ICHOICE=='v')//erorrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+    {
+       for(int i = 0;i<SIZE;i++)
+       {
+          for(int j=0;j<SIZE;j++)
+          {
+            image[i][j] = image[j][i];
+          }
+       }
+    }
+
+    else {
+    cout<<"please enter correct value "<<endl;
+    goto start;
+    }
+
+
+}
+void filter2()
+{
+for (int i = 0; i < SIZE; i++)
+    for (int j = 0; j< SIZE; j++)
+       image[i][j] = 255 - image[i][j];}
