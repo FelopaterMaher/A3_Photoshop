@@ -12,7 +12,9 @@ using namespace std;
 
 unsigned char image[SIZE][SIZE];
 
+unsigned char image2[SIZE][SIZE];
 void load();
+void load2();
 void filter1();
 void filter2();
 void filter3();
@@ -20,18 +22,17 @@ void filter4();
 void filter5();
 void filter6();
 void save();
-
 int main() {
 
 
     cout << " Ahlan ya user ya habibi \n"<<endl;
     load();
     cout << "Please select a filter to apply or 0 to exit:\n"
-            "1- Black & White Filter\n"
-            "2- Invert Filter\n"
-            "3- Merge Filter \n"
-            "4- Flip Image\n"
-            "5- Darken and Lighten Image \n"
+            "1- Black & White Filter\n"//done
+            "2- Invert Filter\n"//done
+            "3- Merge Filter \n"//done
+            "4- Flip Image\n"//done
+            "5- Darken and Lighten Image \n"//done
             "6- Rotate Image\n"
             "7- Detect Image Edges \n"
             "8- Enlarge Image\n"
@@ -49,6 +50,8 @@ int main() {
     } else if (iChoice == '2') {
         filter2();
     } else if (iChoice == '3') {
+        filter3();
+
 
     } else if (iChoice == '4') {
         filter4();
@@ -56,7 +59,7 @@ int main() {
     } else if (iChoice == '5') {
         filter5();
     } else if (iChoice == '6') {
-        cout << "Rotate (90), (180) or (360) degrees?" << endl;
+        filter6();
     } else if (iChoice == '7') {
     } else if (iChoice == '8') {
         cout << "Which quarter to enlarge 1, 2, 3 or 4?" << endl;
@@ -72,10 +75,9 @@ int main() {
         return 0;
     }
 
-    save();
+
     return 0;
 }
-
 void load()
 {
     char imageFileName [100];
@@ -86,15 +88,39 @@ void load()
     readGSBMP(imageFileName,image);
 }
 
-void save(){
+void load2()
+{
+    char imageFileName2 [100];
+    cout<<"Enter the source image2 file name: ";
+    cin>> imageFileName2 ;
+    //Add to it .bmb extension and load image.
+    strcat(imageFileName2,".bmp");
+    readGSBMP(imageFileName2,image2);//??????
+}
+
+void save()
+{
     char imageFileName [100];
     cout<<"Enter the file image file name to save: ";
+    cin.ignore();
+    cin.clear();
     cin>> imageFileName ;
     //Add to it .bmb extension and load image.
     strcat (imageFileName,".bmp");
     writeGSBMP(imageFileName,image);
-
 }
+void save2()
+{
+    char imageFileName2 [100];
+    cout<<"Enter the file image file name to save: ";
+    cin.ignore();
+    cin.clear();
+    cin>> imageFileName2 ;
+    //Add to it .bmb extension and load image.
+    strcat (imageFileName2,".bmp");
+    writeGSBMP(imageFileName2,image2);
+}
+
 
 void filter1()
 {
@@ -109,6 +135,7 @@ void filter1()
             image[i][j] = 0;
     }
     }
+    save();
 }
 
 void filter2()
@@ -118,6 +145,28 @@ for (int i = 0; i < SIZE; i++)
        image[i][j] = 255 - image[i][j];
 }
 
+void filter3 ()
+{
+load2();
+ for (int k = 0; k < (SIZE); k++)
+        {
+          for (int l = 0; l < (SIZE); l++)
+          {
+
+                    if (image2[k][l] <225){
+                        image2[k][l]=image2[k][l]+30;
+                    }
+                    else if(image[k][l] <107){
+                       image2[k][l]=image2[k][l]+30;
+                    }
+                    else
+                        continue;
+
+               }
+               }
+
+save();
+}
 
 void filter4()
 {
@@ -155,6 +204,7 @@ void filter4()
     cout<<"please enter correct value "<<endl;
     goto start;
     }
+    save();
 }
 
 void filter5(){
@@ -169,11 +219,11 @@ void filter5(){
           {
              if(C=='d')
                {
-                    if (image[k][l] > 127){
-                        image[k][l]=image[k][l]-20;
+                    if (image[k][l] > 117){
+                        image[k][l]=image[k][l]-30;
                     }
-                    else if(image[k][l] > 20){
-                       image[k][l]=image[k][l]-20;
+                    else if(image[k][l] > 30){
+                       image[k][l]=image[k][l]-30;
                     }
                     else
                         continue;
@@ -195,4 +245,24 @@ void filter5(){
                }
           }
 
-}}
+}
+save();
+}
+
+
+void filter6()
+{
+    cout << "Rotate (90), (180) or (360) degrees?" << endl;
+    string I;
+    cin>>I;
+    if(I=="90")//not correct*************
+    {
+        for(int i=0;i<SIZE;i++){
+            for(int j=0;j<SIZE;j++){
+                image2[j][j-SIZE-1]=image[i][j];
+            }
+        }
+
+    }
+save2();
+}
