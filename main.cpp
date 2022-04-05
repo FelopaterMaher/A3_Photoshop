@@ -141,9 +141,12 @@ void filter1() {
 }
 
 void filter2() {
-    for (int i = 0; i < SIZE; i++)
-        for (int j = 0; j < SIZE; j++)
+    for (int i = 0; i < SIZE; i++){
+        for (int j = 0; j < SIZE; j++){
             image[i][j] = 255 - image[i][j];
+        }
+    }
+        save();
 }
 
 void filter3() {
