@@ -1,7 +1,9 @@
 // Program: Ass3.
-// Author:  Felopater maher
-// Version: 5
-//done filter(1,2,4,5).
+//CS112
+//Felopater maher 20210291
+//Mina maged 20210420
+//Faisal ahmed 20210804
+
 #include<iostream>
 #include<fstream>
 #include<cstring>
@@ -11,8 +13,8 @@
 using namespace std;
 
 unsigned char image[SIZE][SIZE];
-
 unsigned char image2[SIZE][SIZE];
+
 
 void load();
 
@@ -30,11 +32,23 @@ void filter5();
 
 void filter6();
 
+void filter7();
+
+void filter8();
+
+void filter9();
+
+void filtera();
+
+void filterb();
+
+void filterc();
+
 void save();
 
 int main() {
 
-
+for(int M=0;M<20;M++){
     cout << " Ahlan ya user ya habibi \n" << endl;
     load();
     cout << "Please select a filter to apply or 0 to exit:\n"
@@ -43,15 +57,15 @@ int main() {
             "3- Merge Filter \n"//done
             "4- Flip Image\n"//done
             "5- Darken and Lighten Image \n"//done
-            "6- Rotate Image\n"
+            "6- Rotate Image\n"//done
             "7- Detect Image Edges \n"
-            "8- Enlarge Image\n"
-            "9- Shrink Image\n"
-            "a- Mirror 1/2 Image\n"
+            "8- Enlarge Image\n"//done
+            "9- Shrink Image\n"//done
+            "a- Mirror 1/2 Image\n"//done
             "b- Shuffle Image\n"
-            "c- Blur Image\n"
-            "s- Save the image to a file\n"
-            "0- Exit";
+            "c- Blur Image\n"//done
+            "s- Save the image to a file\n"//done
+            "0- Exit";//done
     char iChoice;
     cin.ignore();
     cin >> iChoice;
@@ -68,21 +82,26 @@ int main() {
     } else if (iChoice == '6') {
         filter6();
     } else if (iChoice == '7') {
+        filter7();
     } else if (iChoice == '8') {
-        cout << "Which quarter to enlarge 1, 2, 3 or 4?" << endl;
+filter8();
     } else if (iChoice == '9') {
-        cout << "Shrink to (1/2), (1/3) or (1/4)?" << endl;
+        filter9();
     } else if (iChoice == 'a') {
-        cout << "Mirror (l)eft, (r)ight, (u)pper, (d)own side?" << endl;
+filtera();
     } else if (iChoice == 'b') {
+
     } else if (iChoice == 'c') {
-    } else if (iChoice == 's') {
-        cout << "Please enter target file name:" << endl;
-    } else if (iChoice == 0) {
+        filterc();
+    } else if (iChoice == 's')
+    {
+         save();
+    }
+     else if (iChoice == 0) {
         return 0;
     }
 
-
+}
     return 0;
 }
 
@@ -127,7 +146,7 @@ void save2() {
 }
 
 
-void filter1() {
+void filter1() {//black and white
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
 
@@ -140,31 +159,26 @@ void filter1() {
     save();
 }
 
-void filter2() {
+void filter2() {//invert
     for (int i = 0; i < SIZE; i++)
         for (int j = 0; j < SIZE; j++)
             image[i][j] = 255 - image[i][j];
 }
 
-void filter3() {
+void filter3() {//merg
     load2();
-    for (int k = 0; k < (SIZE); k++) {
-        for (int l = 0; l < (SIZE); l++) {
-
-            if (image2[k][l] < 225) {
-                image2[k][l] = image2[k][l] + 30;
-            } else if (image[k][l] < 107) {
-                image2[k][l] = image2[k][l] + 30;
-            } else
-                continue;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = (image[i][j] + image2[i][j]) / 2;
 
         }
     }
 
+
     save();
 }
 
-void filter4() {
+void filter4() {//flip
     start:
     cout << "Flip (h)orizontally or (v)ertically ?" << endl;
     char ICHOICE;
@@ -193,7 +207,7 @@ void filter4() {
     save();
 }
 
-void filter5() {
+void filter5() {//darken and lighten
 
     cout << "Do you want to (d)arken or (l)ighten?" << endl;
     char C;
@@ -202,14 +216,7 @@ void filter5() {
     for (int k = 0; k < (SIZE); k++) {
         for (int l = 0; l < (SIZE); l++) {
             if (C == 'd') {
-                if (image[k][l] > 117) {
-                    image[k][l] = image[k][l] - 30;
-                } else if (image[k][l] > 30) {
-                    image[k][l] = image[k][l] - 30;
-                } else
-                    continue;
-
-
+                image[k][l] = (image[k][l]) / 2;
             } else if (C == 'l') {
                 if (image[k][l] < 225) {
                     image[k][l] = image[k][l] + 30;
@@ -220,34 +227,251 @@ void filter5() {
 
             }
         }
+    }
 
+
+    save();
+}
+
+
+void filter6() {//rotate
+    cout<<"Rotate 90 , 180 ,270 ?";
+    int c;
+    cin>>c;
+    if(c==90){
+ for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image2[i][j] = image[255 - j][i];
+        }
+    }}
+    else if(c==180)
+{
+     for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image2[i][j] = image[255 - i][255 - j];
+        }
+    }}
+    else if(c==270){
+    int k = 255;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image2[i][j] = image[j][k];
+        }
+        k--;
+    }
+}
+save2();
+}
+
+
+void filter7() {
+
+
+    for (int i = 0; i < SIZE; i ++) {
+            for (int j = 0; j < SIZE; j ++) {
+                    if (image[i][j]>image[i+1][j+1]||image[i][j]>image[i+1][j-1]||image[i][j]>image[i-1][j-1]||image[i][j]>image[i-1][j]||image[i][j]>image[i][j+1]){
+                        image[i][j]=0;
+                    }
+                    else {
+                        image[i][j]=255;
+                    }
+}
     }
     save();
 }
 
 
-void filter6() {
-    cout << "Rotate (90), (180) or (360) degrees?" << endl;
-    string I;
-    cin >> I;
-    if (I == "180")//not correct*************
-    {
+void filter8()//enlarge
+{
+    cout<<" 1,2,3,4 ";
+    int i;
+    cin>>i;
+        if (i == 1) {
+                for(int k=0;k<SIZE;k+=2)
+                {
+                    for(int l=0;l<SIZE;l+=2)
+                    {
+                       image2[k][l]=image[k/2][l/2];
+                       image2[k+1][l+1]=image[(k/2)+1][(l/2)+1];
+
+        }
+        }
+        }
+        else if(i==2){
+                  for(int k=0;k<SIZE;k+=2)
+                {
+                    for(int l=0;l<SIZE;l+=2)
+                    {
+                       image2[k][l]=image[(k/2)][(l/2)+128];
+                         image2[k+1][l+1]=image[(k/2)+1][(l/2)+1];
+
+        }
+        }
+
+        }
+        else if(i==3){
+               for(int k=0;k<SIZE;k+=2)
+                {
+                    for(int l=0;l<SIZE;l+=2)
+                    {
+                       image2[k][l]=image[(k/2)+128][(l/2)];
+                         image2[k+1][l+1]=image[(k/2)+1][(l/2)+1];
+
+        }
+        }
+        }
+        else if(i==4){
+               for(int k=0;k<SIZE;k+=2)
+                {
+                    for(int l=0;l<SIZE;l+=2)
+                    {
+                       image2[k][l]=image[(k/2)+128][(l/2)+128];
+                         image2[k+1][l+1]=image[(k/2)+1][(l/2)+1];
+
+        }
+        }
+        }
+
+        for(int m=0;m<SIZE;m++)
+                {
+                    for(int h=0;h<SIZE;h++)
+                    {
+        if (image2[m][h] < 225) {
+                    image2[m][h] = image2[m][h] + 30;
+                } else if (image2[m][h] < 107) {
+                    image2[m][h] = image2[m][h] + 30;
+                } else{ continue;
+
+                    }
+                    }}
+    save2();
+}
+
+
+void filter9()//shrink
+{
+
+    cout << "Shrink to (1/2), (1/3) or (1/4)? ";
+    double c;
+
+    string w;
+    cin >> w;
+    if (w == "1/2") {
+        for (int i = 0; i < SIZE; i += 2) {
+            for (int j = 0; j < SIZE; j += 2) {
+
+
+                image2[i / 2][j / 2] = image[i][j];
+            }
+
+        }
+
+
+    } else if (w == "1/3") {
+
+        for (int i = 0; i < SIZE; i += 3) {
+            for (int j = 0; j < SIZE; j += 3) {
+
+
+                image2[i / 3][j / 3] = image[i][j];
+            }
+
+        }
+
+    } else if (w == "1/4") {
+
+        for (int i = 0; i < SIZE; i += 4) {
+            for (int j = 0; j < SIZE; j += 4) {
+
+
+                image2[i / 4][j / 4] = image[i][j];
+            }
+
+        }
+
+    }
+
+
+    save2();
+}
+
+
+void filtera() {//mirror
+     int n;
+    cout << "\n1.Left 1/2"
+            "\n2.Right 1/2"
+            "\n3.Up 1/2"
+            "\n4.Down 1/2"
+            "\nOperation No.";
+    cin >> n;
+    if (n == 1) {
         for (int i = 0; i < SIZE; i++) {
-            for (int j = i; j < SIZE; j++) {
-                swap(image[i][j], image[j][i]);
+            for (int j = 0; j < SIZE / 2; j++) {
+                image2[i][j] = image[i][j];
             }
         }
-        /* for (int i = 0; i < (SIZE/ 2); i++)
-         {
-           for (int j = 0; j < (SIZE); j++)
-           {
-         int temp = image[i][j];
-         image[i][j] = image[SIZE- 1 - i][j];
-         image[SIZE - 1 -i][j] = temp;
-           }
-         }*/
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = SIZE / 2; j < SIZE; j++) {
+                image2[i][j] = image[i][255 - j];
+            }
+        }
+        save2();
     }
+    if (n == 2) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = SIZE / 2; j < SIZE; j++) {
+                image2[i][j] = image[i][j];
+            }
+        }
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE / 2; j++) {
+                image2[i][j] = image[i][255 - j];
+            }
+        }
+        save2();
+    }
+    if (n == 3) {
+        for (int i = 0; i < SIZE / 2; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                image2[i][j] = image[i][j];
+            }
+        }
+        for (int i = SIZE / 2; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                image2[i][j] = image[255 - i][j];
+            }
+        }
+        save2();
+    }
+    if (n == 4) {
+        for (int i = SIZE / 2; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                image2[i][j] = image[i][j];
+            }
+        }
+        for (int i = 0; i < SIZE / 2; i++) {
+            for (int j = 0; j < SIZE; j++) {
+               image2[i][j] = image[255 - i][j];
+            }
+        }
+        save2();
+    }
+}
 
 
+void filterb() {
+
+}
+
+
+void filterc() {//blur
+
+    for (int k = 0; k < (SIZE); k++) {
+        for (int l = 0; l < (SIZE); l++) {
+            image[k][l] = (image[k - 1][l - 1] + image[k - 1][l] + image[k - 1][l + 1] + image[k][l - 1] + image[k][l] +
+                           image[k][l + 1] + image[k + 1][l - 1] + image[k + 1][l] + image[k + 1][l + 1]) / 9;
+        }
+    }
     save();
 }
+
